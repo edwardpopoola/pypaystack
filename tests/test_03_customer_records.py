@@ -23,7 +23,7 @@ class TestCustomerRecords(TestCase):
         def retrieve_one_customer():
             one_customer = customers_list[0]
             (status_code, status, response_msg,
-             customer_data) = self.customer.getone(one_customer['id'])
+             customer_data) = self.customer.getone(one_customer['customer_code'])
             self.assertEqual(status_code, 200)
             self.assertEqual(status, True)
             self.assertEqual(response_msg, 'Customer retrieved')

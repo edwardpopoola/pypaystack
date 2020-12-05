@@ -41,7 +41,7 @@ response  = transaction.verify(refcode) #Verify a transaction given a reference 
 
 customer = Customer(authorization_key="sk_myauthorizationkeyfromthepaystackguys")
 response = customer.create("customer2@gmail.com", "John", "Doe", phone="080123456789") #Add new customer
-response = customer.getone(1234) #Get customer with id of 1234
+response = customer.getone("CUS_xxxxyy") #Get customer with customer code of  CUS_xxxxyy
 response = customer.getall() #Get all customers
 
 
@@ -53,7 +53,4 @@ response = plan.getone(240) #Get plan with id of 240
 response = plan.getall() #Get all plans
 
 ```
-#Todo
-Write more tests
-
 

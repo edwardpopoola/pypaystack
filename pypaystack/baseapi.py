@@ -6,7 +6,6 @@ from .errors import *
 
 
 class BaseAPI(object):
-
     """
     Base class for the pypaystack python API wrapper for paystack
     Not to be instantiated directly.
@@ -14,7 +13,6 @@ class BaseAPI(object):
 
     _CONTENT_TYPE = "application/json"
     _BASE_END_POINT = "https://api.paystack.co"
-
 
     def __init__(self, authorization_key=None):
         if authorization_key:
@@ -24,18 +22,15 @@ class BaseAPI(object):
         if not self._PAYSTACK_AUTHORIZATION_KEY:
             raise MissingAuthKeyError("Missing Authorization key argument or env variable")
 
-
     def _url(self, path):
         return self._BASE_END_POINT + path
 
-
     def _headers(self):
-        return { 
-                "Content-Type": self._CONTENT_TYPE, 
-                "Authorization": "Bearer " + self._PAYSTACK_AUTHORIZATION_KEY,
-                "user-agent": "pyPaystack-{}".format(version.__version__)
-                }
-
+        return {
+            "Content-Type": self._CONTENT_TYPE,
+            "Authorization": "Bearer " + self._PAYSTACK_AUTHORIZATION_KEY,
+            "user-agent": "pyPaystack-{}".format(version.__version__)
+        }
 
     def _parse_json(self, response_obj):
         """
@@ -49,10 +44,7 @@ class BaseAPI(object):
         status = parsed_response.get('status', None)
         message = parsed_response.get('message', None)
         data = parsed_response.get('data', None)
-        #if data:
-        #    message = data.get('gateway_response', None) 
         return response_obj.status_code, status, message, data
-
 
     def _handle_request(self, method, url, data=None):
 
@@ -61,11 +53,11 @@ class BaseAPI(object):
         Returns a python tuple of status code, status(bool), message, data
         """
         method_map = {
-                    'GET':requests.get,
-                    'POST':requests.post,
-                    'PUT':requests.put,
-                    'DELETE':requests.delete
-                    }
+            'GET': requests.get,
+            'POST': requests.post,
+            'PUT': requests.put,
+            'DELETE': requests.delete
+        }
 
         payload = json.dumps(data) if data else data
         request = method_map.get(method)
@@ -81,6 +73,4 @@ class BaseAPI(object):
             return self._parse_json(response)
         else:
             body = response.json()
-            return response.status_code, body.get('status'), body.get('message'), body.get('errors') 
-
-
+            return response.status_code, body.get('status'), body.get('message'), body.get('errors')
