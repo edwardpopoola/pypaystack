@@ -38,7 +38,7 @@ class Transaction(BaseAPI):
         return self._handle_request("GET", url)
 
     def initialize(
-        self, email, amount, plan=None, reference=None, channel=None, metadata=None
+        self, email, amount, plan=None, reference=None, channel=None, metadata=None, callback_url=None
     ):
         """
         Initialize a transaction and returns the response
@@ -66,6 +66,8 @@ class Transaction(BaseAPI):
             payload.update({"plan": plan})
         if channel:
             payload.update({"channels": channel})
+        if callback_url:
+            payload.update({"callback_url": callback_url})        
         if reference:
             payload.update({"reference": reference})
         if metadata:
