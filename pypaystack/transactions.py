@@ -69,7 +69,7 @@ class Transaction(BaseAPI):
         if reference:
             payload.update({"reference": reference})
         if metadata:
-            payload = payload.update({"metadata": {"custom_fields": metadata}})
+            payload.update({"metadata": metadata})
 
         return self._handle_request("POST", url, payload)
 
