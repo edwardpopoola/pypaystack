@@ -13,12 +13,14 @@ class TestTransaction(TestCase):
         """
         transaction_details = {
             "amount": 1000*100,
-            "email": "test_customer@mail.com"
+            "email": "test_customer@mail.com",
+            "currency": "USD"
         }
 
         def initialize_transaction():
             (status_code, status, response_msg,
              initialized_transaction_data) = self.transaction.initialize(**transaction_details)
+             
             self.assertEqual(status_code, 200)
             self.assertEqual(status, True)
             self.assertEqual(response_msg, 'Authorization URL created')

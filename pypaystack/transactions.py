@@ -108,7 +108,6 @@ class Transaction(BaseAPI):
             payload.update({"metadata": {"custom_fields": metadata}})
         if currency:
             payload.update({"currency": currency})
-
         return self._handle_request("POST", url, payload)
 
     def verify(self, reference):

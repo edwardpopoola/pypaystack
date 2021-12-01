@@ -66,3 +66,4 @@ target/
 
 # Vscode config
 .vscode
+.env
