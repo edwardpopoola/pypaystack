@@ -13,16 +13,32 @@ class TestTransaction(TestCase):
         """
         transaction_details = {
             "amount": 1000*100,
-            "email": "test_customer@mail.com"
+            "email": "test_customer@mail.com",
+        }
+
+        dollar_transaction_details = {
+            "amount": 200 * 100,
+            "email": "test.customer@mail.com",
+            "currency": "USD"
         }
 
         def initialize_transaction():
             (status_code, status, response_msg,
              initialized_transaction_data) = self.transaction.initialize(**transaction_details)
+             
             self.assertEqual(status_code, 200)
             self.assertEqual(status, True)
             self.assertEqual(response_msg, 'Authorization URL created')
             return initialized_transaction_data
+
+        def initialize_dollar_transaction():
+            (status_code, status, response_msg,
+            initialized_dollar_transaction_data) = self.transaction.initialize(**dollar_transaction_details)
+             
+            self.assertEqual(status_code, 200)
+            self.assertEqual(status, True)
+            self.assertEqual(response_msg, 'Authorization URL created')
+            return initialized_dollar_transaction_data
 
         def verify_transaction():
             (status_code, status, response_msg, response_data) = self.transaction.verify(
@@ -33,5 +49,18 @@ class TestTransaction(TestCase):
             self.assertEqual(response_data.get('customer')
                              ['email'], transaction_details['email'])
 
+        def verify_dollar_transaction():
+            (status_code, status, response_msg, response_data) = self.transaction.verify(
+                reference=initialized_dollar_transaction_data['reference'])
+            self.assertEqual(status_code, 200)
+            self.assertEqual(status, True)
+            self.assertEqual(response_msg, 'Verification successful')
+            self.assertEqual(response_data.get('customer')
+                             ['email'], dollar_transaction_details['email'])
+
+
         initialized_transaction_data = initialize_transaction()
         verify_transaction()
+
+        initialized_dollar_transaction_data = initialize_dollar_transaction()
+        verify_dollar_transaction()

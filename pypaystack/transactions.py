@@ -38,7 +38,7 @@ class Transaction(BaseAPI):
         return self._handle_request("GET", url)
 
     def initialize(
-        self, email, amount, plan=None, reference=None, channel=None, metadata=None
+        self, email, amount, plan=None, reference=None, channel=None, metadata=None, currency=None
     ):
         """
         Initialize a transaction and returns the response
@@ -50,6 +50,7 @@ class Transaction(BaseAPI):
         Reference -- optional
         channel -- channel type to use
         metadata -- a list if json data objects/dicts
+        currency -- currency to charge eg USD
         """
         amount = utils.validate_amount(amount)
 
@@ -70,10 +71,12 @@ class Transaction(BaseAPI):
             payload.update({"reference": reference})
         if metadata:
             payload = payload.update({"metadata": {"custom_fields": metadata}})
+        if currency:
+            payload.update({"currency": currency})
 
         return self._handle_request("POST", url, payload)
 
-    def charge(self, email, auth_code, amount, reference=None, metadata=None):
+    def charge(self, email, auth_code, amount, reference=None, metadata=None, currency=None):
         """
         Charges a customer and returns the response
 
@@ -103,7 +106,8 @@ class Transaction(BaseAPI):
             payload.update({"reference": reference})
         if metadata:
             payload.update({"metadata": {"custom_fields": metadata}})
-
+        if currency:
+            payload.update({"currency": currency})
         return self._handle_request("POST", url, payload)
 
     def verify(self, reference):
